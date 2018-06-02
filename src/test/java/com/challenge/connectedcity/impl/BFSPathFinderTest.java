@@ -11,8 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.challenge.connectedcity.api.PathFinder;
-import com.challenge.connectedcity.domain.CityGraph;
 import com.challenge.connectedcity.helper.MockCityHelper;
+import com.challenge.connectedcity.model.CityGraph;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BFSPathFinderTest {
@@ -29,14 +29,21 @@ public class BFSPathFinderTest {
 
 	@Test
 	public void isCityConnectedTrueTest() throws Exception {
-		when(mockCityGraph.getConnectedCities()).thenReturn(MockCityHelper.getConnectedCities());
-		assertTrue(pathFinder.isCityConnected("a", "b"));
+		when(mockCityGraph.getConnectedNodes()).thenReturn(MockCityHelper.getConnectedCities());
+		assertTrue(pathFinder.isNodeConnected("a", "b"));
 	}
 	
 	@Test
 	public void isCityConnectedFalseTest() throws Exception {
-		when(mockCityGraph.getConnectedCities()).thenReturn(MockCityHelper.getConnectedCities());
-		assertFalse(pathFinder.isCityConnected("a", "c"));
+		when(mockCityGraph.getConnectedNodes()).thenReturn(MockCityHelper.getConnectedCities());
+		assertFalse(pathFinder.isNodeConnected("a", "c"));
+	}
+	
+	
+	@Test
+	public void isCityConnectedNoNeighbourTest() throws Exception {
+		when(mockCityGraph.getConnectedNodes()).thenReturn(MockCityHelper.getConnectedCitiesNoNeighbour());
+		assertFalse(pathFinder.isNodeConnected("a", "c"));
 	}
 
 }

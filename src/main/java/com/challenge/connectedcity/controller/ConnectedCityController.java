@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.challenge.connectedcity.api.PathFinder;
+import com.challenge.connectedcity.model.ServiceConstants;
 
 @RestController
 public class ConnectedCityController {
@@ -20,6 +21,7 @@ public class ConnectedCityController {
 	@RequestMapping(value = "/connected", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> connected(@RequestParam("origin") String origin,
 			@RequestParam("destination") String destination) {
-		return new ResponseEntity<>(pathFinder.isCityConnected(origin, destination) ? "yes" : "no", HttpStatus.OK);
+		return new ResponseEntity<>(pathFinder.isNodeConnected(origin.trim(), destination.trim()) ? ServiceConstants.yes.toString()
+				: ServiceConstants.no.toString(), HttpStatus.OK);
 	}
 }

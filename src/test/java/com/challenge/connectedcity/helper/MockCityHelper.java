@@ -3,7 +3,7 @@ package com.challenge.connectedcity.helper;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.challenge.connectedcity.domain.City;
+import com.challenge.connectedcity.model.City;
 
 public class MockCityHelper {
 
@@ -15,6 +15,13 @@ public class MockCityHelper {
 		b.setNeighbours(a);
 		connectedCities.put("a", a);
 		connectedCities.put("b", b);
+		return connectedCities;
+	}
+	
+	public static Map<String, City> getConnectedCitiesNoNeighbour() {
+		Map<String, City> connectedCities = new HashMap();
+		City a = new City("a");
+		connectedCities.put("a", a);
 		return connectedCities;
 	}
 
