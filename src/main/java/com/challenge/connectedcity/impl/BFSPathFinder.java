@@ -16,16 +16,20 @@ import com.challenge.connectedcity.domain.CityGraph;
 /**
  * 
  * @author sagar 
- * 		   This class does a breadth first search of the graph of
- *         connected cities to check if a path exists between the source and
- *         destination
+ * 	This class does a breadth first search of the graph of
+ *  connected cities to check if a path exists between the source and
+ *  destination
  */
 @Service
 public class BFSPathFinder implements PathFinder {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PathFinder.class);
 
-	@Autowired
 	CityGraph cityGraph;
+
+	@Autowired
+	public BFSPathFinder(CityGraph cityGraph) {
+		this.cityGraph = cityGraph;
+	}
 
 	@Override
 	public boolean isCityConnected(String source, String destination) {
@@ -36,9 +40,9 @@ public class BFSPathFinder implements PathFinder {
 		Iterator<City> neighbourIterator;
 		while (!queue.isEmpty()) {
 			source = queue.poll();
-			//if a city does not have neighbour continue with other cities
+			// if a city does not have neighbour continue with other cities
 			if (cityGraph.getConnectedCities().get(source) == null) {
-				LOGGER.info("{} city has no neighbours",source);
+				LOGGER.info("{} city has no neighbours", source);
 				visited.add(source);
 				continue;
 			}
