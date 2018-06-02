@@ -24,3 +24,8 @@ or
  
  ## Code Coverage
  Code coverage report is provided by JaCoCo, to get coverage report go to target/jacoco-result/index.html
+
+ ## Behind the Scenes
+ Behind the scenes a graph is created, with cities as nodes and list of neighbours.
+ While looking for path BFS is used, this logic can be changed by implementing PathFinder
+ interface and providing implementation for isNodeConnected method.
