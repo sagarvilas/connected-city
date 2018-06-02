@@ -1,23 +1,26 @@
 package com.challenge.connectedcity.domain;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CityGraph {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CityGraph.class);
+	// initialize to empty if path is not specified
+	@Value("${file.path:}")
+	private String filepath;
 
 	private ResourceLoader resourceLoader;
 
@@ -32,6 +35,12 @@ public class CityGraph {
 		return connectedCities;
 	}
 
+	/**
+	 * populates adjacency matrix for source and destination city
+	 * 
+	 * @param source
+	 * @param destination
+	 */
 	public void addPath(City source, City destination) {
 		if (connectedCities.containsKey(source.getName())) {
 			connectedCities.get(source.getName()).setNeighbours(destination);
@@ -39,6 +48,8 @@ public class CityGraph {
 			source.setNeighbours(destination);
 			connectedCities.put(source.getName(), source);
 		}
+		// if there is a path from source to destination then there is a path from
+		// destination to source
 		if (connectedCities.containsKey(destination.getName())) {
 			connectedCities.get(destination.getName()).setNeighbours(destination);
 		} else {
@@ -46,34 +57,14 @@ public class CityGraph {
 			connectedCities.put(destination.getName(), destination);
 		}
 	}
-	
-	public boolean isCityConnected(String source, String destination) {
-		List<String> visited = new LinkedList();
-		LinkedList<String> queue = new LinkedList<String>();
-		visited.add(source);
-		queue.add(source);
-		Iterator<City> i;
-		while(!queue.isEmpty()) {
-			source = queue.poll();
-			i = connectedCities.get(source).getNeighbours().iterator();
-			City temp;
-			while(i.hasNext()) {
-				temp = i.next();
-				if(temp.getName().equals(destination))
-					return true;
-				if(!visited.contains(source))
-				{
-					visited.add(source);
-					queue.add(source);
-				}
-			}
-		}
-		return false;
-	}
 
+	/**
+	 * Reads file from specified location and initializes city graph with neighbours
+	 */
 	@PostConstruct
-	public void initalizeCityGraph() {
-		Resource resource = resourceLoader.getResource("classpath:cities.txt");
+	public void initializeCityGraph() {
+		Resource resource = resourceLoader.getResource(filepath.isEmpty() ? "classpath:cities.txt" : filepath);
+		LOGGER.info("Lodding cities from {}", resource.getFilename());
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
 			String line;
 			while ((line = br.readLine()) != null) {
@@ -81,7 +72,9 @@ public class CityGraph {
 				City destination = new City(line.split(",")[1]);
 				addPath(source, destination);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
+			LOGGER.error("Error while reading file, will initialize with empty cities", e);
+			addPath(new City(""), new City(""));
 			e.printStackTrace();
 		}
 
