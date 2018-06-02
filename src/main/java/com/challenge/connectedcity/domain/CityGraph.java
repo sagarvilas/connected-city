@@ -1,4 +1,4 @@
-package com.challenge.connectedcity.model;
+package com.challenge.connectedcity.domain;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

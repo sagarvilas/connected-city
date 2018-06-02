@@ -3,7 +3,7 @@ package com.challenge.connectedcity.helper;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.challenge.connectedcity.model.City;
+import com.challenge.connectedcity.domain.City;
 
 public class MockCityHelper {
 
