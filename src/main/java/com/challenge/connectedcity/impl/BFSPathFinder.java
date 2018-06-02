@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.challenge.connectedcity.api.PathFinder;
-import com.challenge.connectedcity.domain.City;
-import com.challenge.connectedcity.domain.CityGraph;
+import com.challenge.connectedcity.model.City;
+import com.challenge.connectedcity.model.CityGraph;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class BFSPathFinder implements PathFinder {
 	}
 
 	@Override
-	public boolean isCityConnected(String source, String destination) {
+	public boolean isNodeConnected(String source, String destination) {
 		List<String> visited = new LinkedList();
 		LinkedList<String> queue = new LinkedList<String>();
 		visited.add(source);
@@ -41,12 +41,12 @@ public class BFSPathFinder implements PathFinder {
 		while (!queue.isEmpty()) {
 			source = queue.poll();
 			// if a city does not have neighbour continue with other cities
-			if (cityGraph.getConnectedCities().get(source) == null) {
+			if (noNeighbours(source)) {
 				LOGGER.info("{} city has no neighbours", source);
 				visited.add(source);
 				continue;
 			}
-			neighbourIterator = cityGraph.getConnectedCities().get(source).getNeighbours().iterator();
+			neighbourIterator = cityGraph.getConnectedNodes().get(source).getNeighbours().iterator();
 			City currentCity;
 			while (neighbourIterator.hasNext()) {
 				currentCity = neighbourIterator.next();
@@ -59,6 +59,10 @@ public class BFSPathFinder implements PathFinder {
 			}
 		}
 		return false;
+	}
+
+	private boolean noNeighbours(String source) {
+		return cityGraph.getConnectedNodes().get(source) == null || cityGraph.getConnectedNodes().get(source).getNeighbours().isEmpty();
 	}
 
 }
