@@ -11,8 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.challenge.connectedcity.api.PathFinder;
+import com.challenge.connectedcity.domain.CityGraph;
 import com.challenge.connectedcity.helper.MockCityHelper;
-import com.challenge.connectedcity.model.CityGraph;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BFSPathFinderTest {

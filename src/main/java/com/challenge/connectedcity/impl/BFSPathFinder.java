@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.challenge.connectedcity.api.PathFinder;
-import com.challenge.connectedcity.model.City;
-import com.challenge.connectedcity.model.CityGraph;
+import com.challenge.connectedcity.domain.City;
+import com.challenge.connectedcity.domain.CityGraph;
 
 /**
  * 

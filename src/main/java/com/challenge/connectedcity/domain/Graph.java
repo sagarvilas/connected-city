@@ -1,4 +1,4 @@
-package com.challenge.connectedcity.model;
+package com.challenge.connectedcity.domain;
 
 import java.util.Map;
 

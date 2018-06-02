@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.challenge.connectedcity.api.PathFinder;
-import com.challenge.connectedcity.model.ServiceConstants;
+import com.challenge.connectedcity.domain.ServiceConstants;
 
 @RestController
 public class ConnectedCityController {
