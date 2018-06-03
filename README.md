@@ -17,7 +17,12 @@ or
 ```
  
  By default cities are read from resources/cities.txt, this location can be changed by 
- updating value of "file.path" in application.properties
+ updating value of "file.path" in application.properties or by provinding commandline arguments
+ ```
+        java -jar target/connected-city.jar --file.path=file:<your file>
+or
+        mvn spring-boot:run -Dspring-boot.run.arguments=--file.path=file:<your file>
+```
  
  ## API Documentation
  Documentation is provided using swagger, to get visit http://localhost:8080/swagger-ui.html
