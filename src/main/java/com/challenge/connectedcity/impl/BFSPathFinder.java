@@ -33,6 +33,7 @@ public class BFSPathFinder implements PathFinder {
 
 	@Override
 	public boolean isNodeConnected(String source, String destination) {
+		LOGGER.debug("Finding path from {} to {}",source,destination);
 		List<String> visited = new LinkedList();
 		LinkedList<String> queue = new LinkedList<String>();
 		visited.add(source);
@@ -50,6 +51,7 @@ public class BFSPathFinder implements PathFinder {
 			City currentCity;
 			while (neighbourIterator.hasNext()) {
 				currentCity = neighbourIterator.next();
+				LOGGER.debug("currentcity= {}, visited={}",currentCity,visited);
 				if (currentCity.getName().equalsIgnoreCase(destination))
 					return true;
 				if (!visited.contains(currentCity.getName())) {
