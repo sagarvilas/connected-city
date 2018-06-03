@@ -34,6 +34,11 @@ public class City {
 
 	@Override
 	public String toString() {
-		return String.format("City [name=%s, neighbours=%s]", name, neighbours);
+		StringBuilder builder = new StringBuilder();
+		builder.append("City name=");
+		builder.append(name);
+		return builder.toString();
 	}
+
+
 }
