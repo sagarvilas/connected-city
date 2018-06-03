@@ -19,8 +19,8 @@ import org.springframework.stereotype.Component;
 public class CityGraph implements Graph<String, City> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CityGraph.class);
 	
-	// initialize to empty if path is not specified
-	@Value("${file.path:}")
+	// initialize to classpath resource if path is not specified
+	@Value("${file.path:classpath:cities.txt}")
 	private String filepath;
 
 	private ResourceLoader resourceLoader;
@@ -64,7 +64,7 @@ public class CityGraph implements Graph<String, City> {
 	 */
 	@PostConstruct
 	public void initializeGraph() {
-		Resource resource = resourceLoader.getResource(filepath.isEmpty() ? "classpath:cities.txt" : filepath);
+		Resource resource = resourceLoader.getResource(filepath);
 		LOGGER.info("Lodding cities from {}", resource.getFilename());
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
 			String line;
