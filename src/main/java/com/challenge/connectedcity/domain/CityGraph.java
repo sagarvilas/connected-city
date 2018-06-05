@@ -1,34 +1,12 @@
 package com.challenge.connectedcity.domain;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CityGraph implements Graph<String, City> {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CityGraph.class);
-	
-	// initialize to classpath resource if path is not specified
-	@Value("${file.path:classpath:cities.txt}")
-	private String filepath;
-
-	private ResourceLoader resourceLoader;
-
-	@Autowired
-	public CityGraph(ResourceLoader resourceLoader) {
-		this.resourceLoader = resourceLoader;
-	}
 
 	private Map<String, City> connectedNodes = new HashMap();// adjacency matrix of connected cities
 
@@ -57,26 +35,5 @@ public class CityGraph implements Graph<String, City> {
 			destination.setNeighbours(source);
 			connectedNodes.put(destination.getName(), destination);
 		}
-	}
-
-	/**
-	 * Reads file from specified location and initializes city graph with neighbours
-	 */
-	@PostConstruct
-	public void initializeGraph() {
-		Resource resource = resourceLoader.getResource(filepath);
-		LOGGER.info("Lodding cities from {}", resource.getFilename());
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				City source = new City(line.split(",")[0].trim());
-				City destination = new City(line.split(",")[1].trim());
-				addPath(source, destination);
-			}
-		} catch (Exception e) {
-			LOGGER.error("Error while reading file, will initialize with empty cities", e);
-			addPath(new City(""), new City(""));
-		}
-
 	}
 }

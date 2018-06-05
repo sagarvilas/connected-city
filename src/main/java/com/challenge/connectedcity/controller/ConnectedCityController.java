@@ -31,7 +31,7 @@ public class ConnectedCityController {
 	public ResponseEntity<String> connected(@RequestParam("origin") String origin,
 			@RequestParam("destination") String destination) {
 		return new ResponseEntity<>(
-				pathFinder.isNodeConnected(origin.trim(), destination.trim()) ? ServiceConstants.yes.toString()
+				pathFinder.isNodeConnected(origin.trim().toLowerCase(), destination.trim().toLowerCase()) ? ServiceConstants.yes.toString()
 						: ServiceConstants.no.toString(),
 				HttpStatus.OK);
 	}
