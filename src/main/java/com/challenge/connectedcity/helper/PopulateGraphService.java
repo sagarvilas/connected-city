@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.challenge.connectedcity.api.FileReader;
+import com.challenge.connectedcity.api.FileWatcher;
 import com.challenge.connectedcity.domain.City;
 import com.challenge.connectedcity.domain.CityGraph;
 
@@ -34,7 +34,7 @@ public class PopulateGraphService {
 
 	@PostConstruct
 	public void populateGraph() throws IOException, InterruptedException {
-		fileReader.readFile(filePath)
+		fileReader.read(filePath)
 				.forEach((K) -> cityGraph.addPath(new City(K.split(",")[0].trim().toLowerCase()), new City(K.split(",")[1].trim().toLowerCase())));
 		fileWatcher.watchForFileChange(filePath);
 	}

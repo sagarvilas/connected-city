@@ -12,19 +12,25 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-@Service
-public class FileReader {
+import com.challenge.connectedcity.api.FileReader;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(FileReader.class);
+@Service
+public class GraphFileReader implements FileReader {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(GraphFileReader.class);
 
 	private ResourceLoader resourceLoader;
 
 	@Autowired
-	public FileReader(ResourceLoader resourceLoader) {
+	public GraphFileReader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
 	}
 
-	public List<String> readFile(String filepath) {
+	/* (non-Javadoc)
+	 * @see com.challenge.connectedcity.helper.FileReader#read(java.lang.String)
+	 */
+	@Override
+	public List<String> read(String filepath) {
 		List<String> lines = new LinkedList<String>();
 		Resource resource = resourceLoader.getResource(filepath);
 		LOGGER.info("Lodding cities from {}", resource.getFilename());

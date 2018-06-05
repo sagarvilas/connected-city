@@ -13,8 +13,6 @@ import com.challenge.connectedcity.api.PathFinder;
 import com.challenge.connectedcity.domain.ServiceConstants;
 
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 @RestController
 public class ConnectedCityController {
