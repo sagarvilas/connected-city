@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 
 import org.slf4j.Logger;
@@ -42,8 +43,9 @@ public class UpdateFileWatcher implements FileWatcher {
 		WatchService watchService = path.getFileSystem().newWatchService();
 		path.getParent().register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
 
-		while ( watchService.take() != null) {
-			for (WatchEvent<?> event : watchService.take().pollEvents()) {
+		WatchKey key;
+		while ((key = watchService.take()) != null) {
+		    for (WatchEvent<?> event : key.pollEvents()) {
 				if (event.kind().equals(StandardWatchEventKinds.ENTRY_MODIFY)
 						&& event.context().toString().equals(path.getFileName().toString())) {
 					LOGGER.info("{} modified, recreating graph",event.context().toString());
@@ -51,7 +53,7 @@ public class UpdateFileWatcher implements FileWatcher {
 							new City(K.split(",")[1].trim().toLowerCase())));
 				}
 			}
-			watchService.take().reset();
+			key.reset();
 		}
 	}
 

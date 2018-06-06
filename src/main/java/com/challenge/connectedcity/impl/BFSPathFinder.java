@@ -7,6 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.challenge.connectedcity.api.PathFinder;
@@ -21,6 +23,7 @@ import com.challenge.connectedcity.domain.CityGraph;
  *  destination
  */
 @Service
+@Primary
 public class BFSPathFinder implements PathFinder {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PathFinder.class);
 
@@ -32,8 +35,9 @@ public class BFSPathFinder implements PathFinder {
 	}
 
 	@Override
+	@Cacheable("pathCache")
 	public boolean isNodeConnected(String source, String destination) {
-		LOGGER.debug("Finding path from {} to {}",source,destination);
+		LOGGER.info("Finding path from {} to {}",source,destination);
 		List<String> visited = new LinkedList();
 		LinkedList<String> queue = new LinkedList<String>();
 		visited.add(source);

@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class GraphFileReader implements FileReader {
 	 * @see com.challenge.connectedcity.helper.FileReader#read(java.lang.String)
 	 */
 	@Override
+	@CacheEvict(value="pathCache",allEntries=true)
 	public List<String> read(String filepath) {
 		List<String> lines = new LinkedList<String>();
 		Resource resource = resourceLoader.getResource(filepath);
