@@ -13,8 +13,6 @@ import com.challenge.connectedcity.api.PathFinder;
 import com.challenge.connectedcity.domain.ServiceConstants;
 
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 @RestController
 public class ConnectedCityController {
@@ -31,7 +29,7 @@ public class ConnectedCityController {
 	public ResponseEntity<String> connected(@RequestParam("origin") String origin,
 			@RequestParam("destination") String destination) {
 		return new ResponseEntity<>(
-				pathFinder.isNodeConnected(origin.trim(), destination.trim()) ? ServiceConstants.yes.toString()
+				pathFinder.isNodeConnected(origin.trim().toLowerCase(), destination.trim().toLowerCase()) ? ServiceConstants.yes.toString()
 						: ServiceConstants.no.toString(),
 				HttpStatus.OK);
 	}
